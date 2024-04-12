@@ -8,9 +8,12 @@ public class PlayerController : MonoBehaviour
     private GameObject focalPoint;
     private float powerupStrength = 15.0f;
 
+    // 20223424, 20223445 무적아이템 인디케이터 변수 추가
+    public GameObject invincibeIndicator;
     public GameObject powerupIndicator;
     public float speed = 5.0f;
     public bool hasPowerup = false;
+    public bool isInvincible = false;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +34,8 @@ public class PlayerController : MonoBehaviour
         Vector3 piPosition = transform.position;
         piPosition.y = -0.5f;
         powerupIndicator.transform.position = piPosition;
+        // 20223424, 20223445 무적아이템 인디케이터가 플레이어를 쫒아가도록 설정
+        invincibeIndicator.transform.position = piPosition;
     }
     IEnumerator PowerupCountdownRoutine()
     {
@@ -39,6 +44,15 @@ public class PlayerController : MonoBehaviour
 
         powerupIndicator.SetActive(false);
     }
+    
+    // 20223424, 20223445 무적 아이템 활성화 시간 설정 메서드
+    IEnumerator InvincibilityDuration()
+    {
+        yield return new WaitForSeconds(7);
+        isInvincible = false;
+
+        invincibeIndicator.SetActive(false);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -46,11 +60,21 @@ public class PlayerController : MonoBehaviour
         {
             hasPowerup = true;
             Destroy(other.gameObject);
+
+            powerupIndicator.SetActive(true);
+
+            StartCoroutine(PowerupCountdownRoutine());
         }
+        // 20223424, 20223445 무적아이템 먹으면 아이템이 사라지도록 하고, 능력 활성화
+        else if (other.CompareTag("isInvincible"))
+        {
+            isInvincible = true;
+            Destroy(other.gameObject);
 
-        StartCoroutine(PowerupCountdownRoutine());
+            invincibeIndicator.SetActive(true);
 
-        powerupIndicator.SetActive(true);
+            StartCoroutine(InvincibilityDuration());
+        }       
     }
 
     private void OnCollisionEnter(Collision collision)
