@@ -8,9 +8,11 @@ public class PlayerController : MonoBehaviour
     private GameObject focalPoint;
     private float powerupStrength = 15.0f;
 
+    public GameObject invincibeIndicator;
     public GameObject powerupIndicator;
     public float speed = 5.0f;
     public bool hasPowerup = false;
+    public bool isInvincible = false;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +33,7 @@ public class PlayerController : MonoBehaviour
         Vector3 piPosition = transform.position;
         piPosition.y = -0.5f;
         powerupIndicator.transform.position = piPosition;
+        invincibeIndicator.transform.position = piPosition;
     }
     IEnumerator PowerupCountdownRoutine()
     {
@@ -40,17 +43,34 @@ public class PlayerController : MonoBehaviour
         powerupIndicator.SetActive(false);
     }
 
+    IEnumerator InvincibilityDuration()
+    {
+        yield return new WaitForSeconds(7);
+        isInvincible = false;
+
+        invincibeIndicator.SetActive(false);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Powerup"))
         {
             hasPowerup = true;
             Destroy(other.gameObject);
+
+            powerupIndicator.SetActive(true);
+
+            StartCoroutine(PowerupCountdownRoutine());
         }
+        else if (other.CompareTag("isInvincible"))
+        {
+            isInvincible = true;
+            Destroy(other.gameObject);
 
-        StartCoroutine(PowerupCountdownRoutine());
+            invincibeIndicator.SetActive(true);
 
-        powerupIndicator.SetActive(true);
+            StartCoroutine(InvincibilityDuration());
+        }       
     }
 
     private void OnCollisionEnter(Collision collision)
