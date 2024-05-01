@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerController_20223413 : MonoBehaviour
 {
-    public GameManager_20223413 gameManager;
     private Rigidbody playerRb;
     private GameObject focalPoint;
     private float powerupStrength = 15.0f;
@@ -13,12 +12,19 @@ public class PlayerController_20223413 : MonoBehaviour
     public float speed = 5.0f;
     public bool hasPowerup = false;
 
+    //게임오버 확인용 - > 정민주 20223413
+    public GameManager_20223413 gameManger;
+
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
 
         focalPoint = GameObject.Find("Focal Point");
+
+        gameManger = GameObject.Find("GameManger_20223413").GetComponent<GameManager_20223413>();
+        powerupIndicator = GameObject.FindWithTag("Indicator");
+        powerupIndicator.SetActive(false);
     }
 
     // Update is called once per frame
@@ -29,12 +35,17 @@ public class PlayerController_20223413 : MonoBehaviour
         playerRb.AddForce(focalPoint.transform.forward *
                 forwardInput * speed);
 
-        Vector3 piPosition = transform.position;
-
         //파워업 표시링의 y값도 플레이어 y를 따라감 - 정민주 20223413
-        piPosition.y = transform.position.y - 0.5f;
+        Vector3 piPosition =  new Vector3(transform.position.x, transform.position.y - 0.5f,
+            transform.position.z);
 
         powerupIndicator.transform.position = piPosition;
+
+        // 플레이어가 해당 높이에 있다면 게임오버 처리한다 -> 정민주 20223413
+        if(transform.position.y < -10)
+        {
+            gameManger.gameOver = true;
+        }
     }
 
     IEnumerator PowerupCountdownRoutine()
@@ -53,8 +64,9 @@ public class PlayerController_20223413 : MonoBehaviour
             Destroy(other.gameObject);
         }
 
+        Debug.Log("powerup");
         powerupIndicator.SetActive(true);
-
+        Debug.Log("start powerup");
         StartCoroutine(PowerupCountdownRoutine());
 
     }

@@ -44,7 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fce033e916f294940bdc4837585e0335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefab: {fileID: 2858628470025339546, guid: ef2703bbf5e317e429dfeb4c321dd515, type: 3}
+  enemyPrefab: {fileID: 2858628470025339546, guid: ecff512d1427683408afd5aac13bb7a9, type: 3}
   enemyCount: 0
   waveNumber: 1
   powerupPrefab: {fileID: 451010539967944103, guid: 9b15eae6d0742eb48b07766557fafa46, type: 3}
+  powerCount: 1
+  levelText: {fileID: 783504305542586975, guid: 3ad74756b70e50846996be357cfce545, type: 3}
+  playerPrefab: {fileID: 1595668083576243711, guid: 492e828962b7de542a541ba972a8927e, type: 3}
+  powerIndicate: {fileID: 6572093593070053199, guid: e0b9b957a9dbcd046b4cc176a6122c60, type: 3}
+  gameManager: {fileID: 0}

@@ -44,5 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3271f62f7338b3642ab769fc55b9296e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timer: 0
-  gameOver: 0
+  startGameTime: 0
+  flowingTime: 0
+  gameOver: 1
+  timeText: {fileID: 1141193998909388714, guid: 85f15996cee6ff043b91d601be744181, type: 3}

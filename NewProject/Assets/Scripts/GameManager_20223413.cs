@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager_20223413 : MonoBehaviour
@@ -15,6 +16,8 @@ public class GameManager_20223413 : MonoBehaviour
     
     //게임오버 변수 - 정민주 20223413
     public bool gameOver = true;
+
+    public TextMeshProUGUI timeText;
 
     // Start is called before the first frame update
     void Awake()
@@ -36,6 +39,11 @@ public class GameManager_20223413 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyUp(KeyCode.Y))
+        {
+            gameOver = false;
+        }
+
         // 정민주 20223413
         if (!gameOver)
         {
@@ -46,13 +54,34 @@ public class GameManager_20223413 : MonoBehaviour
             }
             // 이후 게임오버가 아니고 스타트시간도 0이아니라면 - > 현재시간 - 스타트시간을 하여 게임진행 시간을 잰다
             flowingTime = Time.time - startGameTime;
-            Debug.Log("time : " + flowingTime);
+            timeText.text = "Time : " + flowingTime.ToString("F1") + "s";
         }
-        // 게임오버이면서 스타트시간이 0이 아니라면 게임이 이미 종료됐다는 뜻이다 - 게임시작시간과 게임 진행 시간을 초기화 한다
+        // 게임오버이면서 스타트시간이 0이 아니라면 게임이 이미 종료됐다는 뜻이다 - > 게임시작시간과 게임 진행 시간, 모든 오브젝트를 초기화 한다
         else if(startGameTime != 0)
         {
             startGameTime = 0;
             flowingTime = 0;
+            DestoryAll();
         }
+    }
+
+    //게임오버시 발동하는 함수 씬에 있는 맵을 제외한 모든 오브젝트를 삭제한다 -> 정민주 20223413
+    void DestoryAll()
+    {
+        GameObject indicatorPower = GameObject.FindWithTag("Indicator");
+        GameObject player = GameObject.FindWithTag("Player");
+        GameObject[] powerUPs = GameObject.FindGameObjectsWithTag("Powerup");
+        GameObject[] enemys = GameObject.FindGameObjectsWithTag("Enemy");
+        //GameObject[] invincibles = GameObject.FindGameObjectsWithTag("isInvincible");
+        foreach (GameObject enemy in enemys)
+        {
+            Destroy(enemy);
+        }
+        foreach (GameObject powerUP in powerUPs)
+        {
+            Destroy(powerUP);
+        }
+        Destroy(player);
+        Destroy(indicatorPower);
     }
 }
