@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - isInvincible
   - Powerup
+  - Indicator
   layers:
   - Default
   - TransparentFX
