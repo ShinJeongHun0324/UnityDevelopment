@@ -54,7 +54,7 @@ public class SpawnManager_20223424 : MonoBehaviour
         }
 
         // 현재 적의 수 체크
-        enemyCount = FindObjectsOfType<Enemy>().Length;
+        enemyCount = FindObjectsOfType<Enemy_20223424>().Length;
 
         // 모든 적을 물리치면 다음 웨이브 스폰
         if (enemyCount == 0)
