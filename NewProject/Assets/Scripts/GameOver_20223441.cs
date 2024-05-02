@@ -1,18 +1,29 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static System.Net.Mime.MediaTypeNames;
 
 public class GameOver_20223441 : MonoBehaviour
 {
     public GameObject gameOverUI; // 게임 오버 UI
-    //public GameObject mainMenuUI; // 메인 메뉴 UI -- 나중에 집어넣기. sync fork 이후 메인메뉴 프리팹 넣으면 됨.
+    public GameObject mainMenuUI; // 메인 메뉴 UI
     public Button restartButton; // Restart 버튼
-    //public Button mainMenuButton; // Main Menu 버튼
+    public Button mainMenuButton; // Main Menu 버튼
+
+    // 레벨, 시간, 목숨 UI 지우기
+    public GameObject TextLevelUI;
+    public GameObject TextTimeUI;
+    public GameObject TimePanelUI;
+
+    // 생존 시간 출력
+    public UnityEngine.UI.Text survivalTimeText; // 게임 오버 UI에 출력할 생존 시간을 표시할 Text
+    private GameManager_20223413 gameManager; // 게임 매니저 참조
 
     void Start()
     {
         restartButton.onClick.AddListener(RestartGame);
-        //mainMenuButton.onClick.AddListener(MainMenuLoad);
+        mainMenuButton.onClick.AddListener(MainMenuLoad);
+        gameManager = FindObjectOfType<GameManager_20223413>(); // 게임 매니저 찾기
     }
 
     void Update()
@@ -22,12 +33,27 @@ public class GameOver_20223441 : MonoBehaviour
         {
             ShowGameOverUI();
         }
+
     }
 
     // 게임 오버 UI 활성화
     public void ShowGameOverUI()
     {
         gameOverUI.SetActive(true);
+        RotateCamera rotateCamera = FindObjectOfType<RotateCamera>();
+        if (rotateCamera != null)
+        {
+            rotateCamera.SetGameOver();
+        }
+
+        // 레벨, 시간, 목숨 UI 비활성화
+        TextLevelUI.SetActive(false); 
+        TextTimeUI.SetActive(false);
+        TimePanelUI.SetActive(false);
+
+        // 생존시간 출력
+        float survivalTime = gameManager.flowingTime;
+        survivalTimeText.text = "Survival Time: " + survivalTime.ToString("F1") + "s";
     }
 
     // Restart 버튼 클릭 시 호출될 메서드
@@ -41,9 +67,12 @@ public class GameOver_20223441 : MonoBehaviour
     }
 
     // 메인 메뉴로 돌아가는 버튼 클릭 시 호출될 메서드
-    //public void MainMenuLoad()
-    //{
+    public void MainMenuLoad()
+    {
+        // 게임 오버 UI 비활성화
+        gameOverUI.SetActive(false);
+
         // 메인 메뉴 UI 활성화
-        //mainMenuUI.SetActive(true);
-    //}
+        mainMenuUI.SetActive(true);
+    }
 }
