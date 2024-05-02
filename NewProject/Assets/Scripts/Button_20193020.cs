@@ -8,9 +8,17 @@ public class Button_20193020 : MonoBehaviour, IPointerEnterHandler, IPointerExit
     public BTNType currentType;
     public Transform buttonScale;
     Vector3 defaultScale;
+
+    public GameObject mainMenu;
+    public GameObject title;
+
+    public GameManager_20193020 gameManager;
+
     void Start()
     {
         defaultScale = buttonScale.localScale;
+
+        gameManager = GameObject.Find("GameManager_20193020").GetComponent<GameManager_20193020>();
     }
 
     public void OnBtnClick()
@@ -21,6 +29,12 @@ public class Button_20193020 : MonoBehaviour, IPointerEnterHandler, IPointerExit
                 Debug.Log("게임 시작!");
                 break;
         }
+
+        gameManager.gameOver = false;
+        Debug.Log(gameManager.gameOver);
+
+        mainMenu.SetActive(false);
+        title.SetActive(false);
     }
 
     public void OnPointerEnter(PointerEventData eventData)
