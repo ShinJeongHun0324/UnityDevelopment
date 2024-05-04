@@ -598,7 +598,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeCount: 3
-  lifeText: {fileID: 0}
+  lifeText: {fileID: 1554249243}
 --- !u!1 &1211016355
 GameObject:
   m_ObjectHideFlags: 0
