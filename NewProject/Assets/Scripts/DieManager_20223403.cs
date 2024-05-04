@@ -1,44 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class DieManager_20223403 : MonoBehaviour
+public class DieManager : MonoBehaviour
 {
-    public int lifeCount;
     public Text lifeText;
 
-    void Awake()
+    private void Start()
     {
-        lifeText.text = "Life : " + lifeCount;
+        lifeText.text = "Life : " + GameManager.instance.lifeCount;
     }
 
-    void OnTriggerEnter(Collider other) 
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
+            GameManager.instance.DecreaseLifeCount();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-
-            if (lifeCount > 0)
-            {
-                lifeCount--;
-                Debug.Log("" + lifeCount);
-                lifeText.text = "Life : " + lifeCount;
-            }
-            else
-            {
-                GameOver();
-            }
         }
-    }
-
-    void GameOver()
-    {
-        // 임시로 만든 메서드입니다,
-        // 최종적으로 합치실 때 GameOver시 발생하는 함수가 있다면
-        // 이 메서드를 지우고, else문에 함수 이름 넣어주세요!
-        Debug.Log("Game Over!!!");
-        lifeText.text = "Life : 0";
     }
 }
