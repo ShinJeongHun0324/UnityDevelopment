@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManager11 : MonoBehaviour
 {
     public GameObject enemyPrefab;
     public int enemyCount;

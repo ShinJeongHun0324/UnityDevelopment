@@ -8,6 +8,7 @@ TagManager:
   - isInvincible
   - Powerup
   - Indicator
+  - Invincibe
   layers:
   - Default
   - TransparentFX
